@@ -7,7 +7,6 @@ import {
 	ListItem,
 	ListItemText,
 	ButtonGroup,
-	Typography,
 	Paper,
 } from '@material-ui/core';
 import {dishes} from '../../data/dishes.json';

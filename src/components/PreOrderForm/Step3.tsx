@@ -8,7 +8,6 @@ import {
 	FormHelperText,
 	FormControl,
 	ButtonGroup,
-	IconButton,
 	Box,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
