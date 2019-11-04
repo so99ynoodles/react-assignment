@@ -15,6 +15,7 @@
 		"@types/react-dom": "16.9.3",
 		"@types/yup": "^0.26.24",
 		"formik": "^2.0.3",
+		"gh-pages": "^2.1.1",
 		"react": "^16.11.0",
 		"react-dom": "^16.11.0",
 		"react-scripts": "3.2.0",
@@ -26,8 +27,11 @@
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"eject": "react-scripts eject",
+		"predeploy": "yarn build",
+		"deploy": "gh-pages -d build"
 	},
+	"homepage": "https://so99ynoodles.github.io/react-assignment/",
 	"browserslist": {
 		"production": [
 			">0.2%",
