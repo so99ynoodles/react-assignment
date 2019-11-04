@@ -2,7 +2,7 @@ import * as yup from 'yup';
 
 export const generateSchema = () => {
 	const dishSchema = yup.object().shape({
-		dish: yup.string(),
+		dish: yup.string().required('Select a dish'),
 		servings: yup.number().required(),
 	});
 
@@ -16,7 +16,7 @@ export const generateSchema = () => {
 			.min(1)
 			.max(10)
 			.required(),
-		restaurant: yup.string().required(),
+		restaurant: yup.string().required('Please Select Restaurant'),
 		dishes: yup
 			.array()
 			.of(dishSchema)

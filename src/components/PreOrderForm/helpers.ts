@@ -1,7 +1,7 @@
 import {dishes} from '../../data/dishes.json';
 
 export const getAvailableRestaurant = (
-	selectedMeal: 'breakfast' | 'lunch' | 'dinner' | undefined,
+	selectedMeal: string | undefined,
 ): Array<{
 	id: number;
 	name: string;
@@ -13,7 +13,7 @@ export const getAvailableRestaurant = (
 		: dishes.filter(dish => dish.availableMeals.includes(selectedMeal));
 
 export const getAvailableRestaurantsOptions = (
-	selectedMeal: 'breakfast' | 'lunch' | 'dinner' | undefined,
+	selectedMeal: string | undefined,
 ): Array<{label: string; value: string}> =>
 	Array.from(
 		new Set(getAvailableRestaurant(selectedMeal).map(dish => dish.restaurant)),
@@ -23,7 +23,7 @@ export const getAvailableRestaurantsOptions = (
 	}));
 
 export const getAvailableDishesOptions = (
-	selectedMeal: 'breakfast' | 'lunch' | 'dinner' | undefined,
+	selectedMeal: string | undefined,
 	selectedRestaurant: string | undefined,
 ): Array<{label: string; value: string}> =>
 	selectedRestaurant === undefined

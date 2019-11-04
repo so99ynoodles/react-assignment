@@ -6,7 +6,7 @@ interface Dish {
 }
 
 interface FormTypes {
-	meal?: 'breakfast' | 'lunch' | 'dinner';
+	meal?: string;
 	people?: number;
 	restaurant?: string;
 	dishes?: Dish[];

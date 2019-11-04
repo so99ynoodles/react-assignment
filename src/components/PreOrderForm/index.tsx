@@ -1,13 +1,17 @@
-import React, {useState} from 'react';
+import React, {useState, Dispatch, SetStateAction} from 'react';
 import {Formik, Form, FormikProps} from 'formik';
+import styled from '@emotion/styled';
 import {generateSchema} from '../../validator';
-import {Button} from '@material-ui/core';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import Step3 from './Step3';
+import Step4 from './Step4';
+import Success from './Success';
+import {Paper} from '@material-ui/core';
+import StepProgress from '../StepProgress';
 
-const initialValues: FormTypes = {
-	meal: 'breakfast',
+export const initialValues: FormTypes = {
+	meal: '',
 	people: 1,
 	restaurant: '',
 	dishes: [
@@ -19,52 +23,63 @@ const initialValues: FormTypes = {
 };
 
 const handleSubmit = (values: FormTypes): void => console.log(values);
+
 const steps = [
-	(formikProps: FormikProps<FormTypes>) => <Step1 formikProps={formikProps} />,
-	(formikProps: FormikProps<FormTypes>) => <Step2 formikProps={formikProps} />,
-	(formikProps: FormikProps<FormTypes>) => <Step3 formikProps={formikProps} />,
+	'Select meal and number of people',
+	'Select a restaurant',
+	'Select your dishes',
+	'Review',
 ];
+
+const stepPages = [
+	(
+		formikProps: FormikProps<FormTypes>,
+		setStep: Dispatch<SetStateAction<number>>,
+	) => <Step1 formikProps={formikProps} setStep={setStep} />,
+	(
+		formikProps: FormikProps<FormTypes>,
+		setStep: Dispatch<SetStateAction<number>>,
+	) => <Step2 formikProps={formikProps} setStep={setStep} />,
+	(
+		formikProps: FormikProps<FormTypes>,
+		setStep: Dispatch<SetStateAction<number>>,
+	) => <Step3 formikProps={formikProps} setStep={setStep} />,
+	(
+		formikProps: FormikProps<FormTypes>,
+		setStep: Dispatch<SetStateAction<number>>,
+	) => <Step4 formikProps={formikProps} setStep={setStep} />,
+	() => <Success />,
+];
+
+const Container = styled(Paper)`
+	padding: 3rem 2rem;
+`;
+
+const FormContainer = styled(Paper)`
+	padding: 2rem 1rem;
+`;
 
 const PreOrderForm: React.FC<{}> = () => {
 	const [step, setStep] = useState(0);
-	const goNext = () => setStep(prev => prev + 1);
-	const goPrevious = () => setStep(prev => prev - 1);
 	const validationSchema = generateSchema();
 	return (
-		<Formik
-			onSubmit={handleSubmit}
-			validationSchema={validationSchema}
-			initialValues={initialValues}
-		>
-			{props => {
-				console.log('errors', props.errors);
-				return (
-					<Form>
-						{steps[step](props)}
-						{step >= 1 && (
-							<Button
-								onClick={goPrevious}
-								color="default"
-								variant="contained"
-								disabled={props.isSubmitting}
-							>
-								Previous
-							</Button>
-						)}
-						{step < 3 && (
-							<Button
-								onClick={goNext}
-								color="primary"
-								variant="contained"
-								disabled={!props.isValid || props.isSubmitting}
-							>
-								Next
-							</Button>
-						)}
-					</Form>
-				);
-			}}
-		</Formik>
+		<Container>
+			<StepProgress activeStep={step} steps={steps} />
+			<Formik
+				onSubmit={handleSubmit}
+				validationSchema={validationSchema}
+				initialValues={initialValues}
+				initialErrors={{
+					meal: 'Select meal',
+				}}
+			>
+				{props => (
+					<FormContainer elevation={3}>
+						<Form>{stepPages[step](props, setStep)}</Form>
+					</FormContainer>
+				)}
+			</Formik>
+		</Container>
 	);
 };
 
